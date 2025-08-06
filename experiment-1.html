@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment-1: Node.js "Hello World" Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Experiment-1: Node.js "Hello World" Application</h1>
+    <p>This experiment demonstrates setting up a basic Node.js server that displays "Hello World".</p>
+    <h2><code>app.js</code>:</h2>
+    <pre><code>const http = require(\'http\');
+const server = http.createServer((req, res) => {
+res.writeHead(200, { \'Content-Type\': \'text/html\' });
+res.end(\'&lt;h1&gt;Hello World&lt;/h1&gt;\');
+});
+const PORT = 3000;
+server.listen(PORT, () => {
+console.log(\'Server running at http://localhost:${PORT}\');
+});</code></pre>
+    <p><a href="index.html">Back to Home</a></p>
+</body>
+</html>
+

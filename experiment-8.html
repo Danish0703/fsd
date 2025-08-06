@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment-8: MongoDB Count, Limit, Sort, and Skip Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Experiment-8: MongoDB Count, Limit, Sort, and Skip Operations</h1>
+    <p>This experiment details how to use count, limit, sort, and skip operations in MongoDB.</p>
+    <h2><code>mongodb_operations.txt</code>:</h2>
+    <pre><code>use MYDB2
+db.createCollection("employees")
+db.employees.insertMany([{id:111, name:\'aaaa\', salary:10000},{id:222, name:\'bbbb\', salary:15000},{id:333, name:\'cccc\', salary:12000},{id:444, name:\'dddd\', salary:17000}])
+db.employees.find().pretty()
+db.employees.find().count()
+db.employees.find({salary:10000}).count()
+db.employees.find().pretty().limit(1)
+db.employees.find().pretty().limit(2)
+db.employees.find().pretty().skip(2)
+db.employees.find().pretty().skip(2).limit(2)
+db.employees.find().sort({id:1})
+db.employees.find().sort({id:-1})</code></pre>
+    <p><a href="index.html">Back to Home</a></p>
+</body>
+</html>
+

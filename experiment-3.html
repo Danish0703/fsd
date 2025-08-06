@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment-3: Node.js File Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Experiment-3: Node.js File Operations</h1>
+    <p>This experiment covers reading from, writing to, and deleting files using Node.js.</p>
+    <h2><code>file1.txt</code>:</h2>
+    <pre><code>Hello this is FSD Lab</code></pre>
+    <h2><code>readfile.js</code>:</h2>
+    <pre><code>//READ FILE
+var http = require(\'http\');
+var fs = require(\'fs\');
+http.createServer(function (req, res) {
+fs.readFile(\'file1.txt\', function(err, data) {
+res.writeHead(200, {\'Content-Type\': \'text/html\'});
+res.write(data);
+return res.end();
+});
+}).listen(3000);</code></pre>
+    <h2><code>appendfile.js</code>:</h2>
+    <pre><code>//APPEND FILE ASYNCHRONOUS CALL
+var fs = require(\'fs\');
+fs.appendFile(\'file1.txt\', \'FULL STACK DEVELOPMENT\', function (err) {
+if (err) throw err;
+console.log(\'Saved!\');
+});</code></pre>
+    <h2><code>delfile.js</code>:</h2>
+    <pre><code>//DELETE FILE
+var fs = require(\'fs\');
+fs.unlink(\'file1.txt\', function (err) {
+if (err) throw err;
+});
+console.log(\'File deleted!\');</code></pre>
+    <p><a href="index.html">Back to Home</a></p>
+</body>
+</html>
+

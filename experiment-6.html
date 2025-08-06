@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment-6: Basic MongoDB Commands</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Experiment-6: Basic MongoDB Commands</h1>
+    <p>This section outlines fundamental MongoDB commands for database and collection manipulation.</p>
+    <h2><code>mongodb_commands.txt</code>:</h2>
+    <pre><code>show dbs
+use MYDB1
+db.createCollection("students")
+show dbs
+db.students.insertOne({"rollno":501, "name":"cse1"})
+show collections
+db.students.find().pretty()
+db.students.insertOne({"rollno":502, "name":"cse2"})
+db.students.find().pretty()
+db.students.updateOne({rollno:502},{$set: {name:"cse3"}})
+db.students.find().pretty()
+db.students.deleteOne({rollno:111})
+db.students.find().pretty()
+db.students.drop()
+show collections
+db.dropDatabase()
+show dbs
+load("d:\db1.js")
+db.students.find().pretty()
+db.students.findOne()
+db.students.findOne({"name":"cccccc"})</code></pre>
+    <h2><code>d1.js</code>:</h2>
+    <pre><code>db.students.insertOne({name: "Karthik", rollno: 101, marks: 98 })
+db.students.insertOne({name: "Ravi", rollno: 102, marks: 99 })
+db.students.insertOne({name: "Shiva", rollno: 103, marks: 100})
+db.students.insertOne({name: "Pavan", rollno: 104, marks: 80})</code></pre>
+    <p><a href="index.html">Back to Home</a></p>
+</body>
+</html>
+

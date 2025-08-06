@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment-10: React JS Voting Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Experiment-10: React JS Voting Application</h1>
+    <p>This experiment involves building a simple voting application using React JS.</p>
+    <h2><code>App.js</code>:</h2>
+    <pre><code>import React, { useState } from \'react\';
+
+function App() {
+  const [candidates, setCandidates] = useState([
+    { name: \'Alice\', votes: 0 },
+    { name: \'Bob\', votes: 0 },
+    { name: \'Charlie\', votes: 0 }
+  ]);
+
+  const vote = (index) => {
+    const updated = [...candidates];
+    updated[index].votes += 1;
+    setCandidates(updated);
+  };
+
+  const resetVotes = () => {
+    const reset = candidates.map(c => ({ ...c, votes: 0 }));
+    setCandidates(reset);
+  };
+
+  return (
+    &lt;div style={styles.container}&gt;
+      {candidates.map((candidate, index) => (
+        &lt;div key={index} style={styles.card}&gt;
+          &lt;span style={styles.name}&gt;{candidate.name}&lt;/span&gt;
+          &lt;span style={styles.votes}&gt;{candidate.votes}&lt;/span&gt;
+          &lt;button style={styles.button} onClick={() => vote(index)}&gt;Vote&lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+      &lt;button style={styles.resetButton} onClick={resetVotes}&gt;Reset&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+const styles = {
+  container: {
+    fontFamily: \'Arial\',
+    padding: 30,
+    textAlign: \'center\'
+  },
+  card: {
+    margin: 15,
+    padding: 15,
+    border: \'1px solid #ccc\',
+    borderRadius: 10,
+    display: \'inline-block\',
+    width: 256,
+    backgroundColor: \'#f9f9f9\'
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: \'bold\',
+    color: \'#333\'
+  },
+  votes: {
+    display: \'block\',
+    margin: \'10px 0\'
+  },
+  button: {
+    backgroundColor: \'#4CAF50\',
+    color: \'white\',
+    padding: \'8px 16px\',
+    border: \'none\',
+    borderRadius: 5,
+    cursor: \'pointer\'
+  },
+  resetButton: {
+    marginTop: 30,
+    backgroundColor: \'#f44336\',
+    color: \'white\',
+    padding: \'10px 20px\',
+    border: \'none\',
+    borderRadius: 5,
+    cursor: \'pointer\'
+  }
+};
+
+export default App;</code></pre>
+    <p><a href="index.html">Back to Home</a></p>
+</body>
+</html>
+

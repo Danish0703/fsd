@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment-7: MongoDB CRUD Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Experiment-7: MongoDB CRUD Operations</h1>
+    <p>This experiment provides scripts for Create, Read, Update, and Delete (CRUD) operations in MongoDB using Node.js.</p>
+    <h2><code>connect.js</code>:</h2>
+    <pre><code>const { MongoClient } = require("mongodb");
+// Create Instance of MongoClient for mongodb
+const client = new MongoClient("mongodb://localhost:27017");
+// Connect to database
+client.connect()
+.then(() => {
+console.log("Connected Successfully!");
+//Close the database connection
+console.log("Exiting..");
+client.close();
+})
+.catch(error => console.log("Failed to connect!", error));</code></pre>
+    <h2><code>insertdb.js</code>:</h2>
+    <pre><code>const { MongoClient } = require("mongodb");
+// Create Instance of MongoClient for mongodb
+const client = new MongoClient("mongodb://localhost:27017");
+// Insert to database
+client.connect()
+.then(() => {
+client.db("MYDB").collection("students").insertOne({
+name: "3ITA",
+email: "3ITA@example.com"
+})
+.then((res) => {
+console.log(res);
+client.close();
+});
+})
+.catch((err) => console.log(err));</code></pre>
+    <h2><code>finddb.js</code>:</h2>
+    <pre><code>const { MongoClient } = require("mongodb");
+// Create Instance of MongoClient for mongodb
+const client = new MongoClient("mongodb://localhost:27017");
+client.connect()
+.then(() => {
+// Find in database
+client.db("MYDB").collection("students")
+.findOne({name:"csel"})
+.then((res) => {
+console.log(res);
+client.close();
+});
+})
+.catch((err) => console.log(err));</code></pre>
+    <h2><code>updatedb.js</code>:</h2>
+    <pre><code>const { MongoClient } = require("mongodb");
+// Create Instance of MongoClient for mongodb
+const client = new MongoClient("mongodb://localhost:27017");
+// Update in database
+client.connect()
+.then(() => {
+client.db("MYDB").collection("students")
+.updateOne({ name: "3ITA" }, { $set: { email: "updated@example.com" } })
+.then((res) => {
+console.log(res);
+client.close();
+});
+})
+.catch((err) => console.log(err));</code></pre>
+    <h2><code>deletedb.js</code>:</h2>
+    <pre><code>const { MongoClient } = require("mongodb");
+// Create Instance of MongoClient for mongodb
+const client = new MongoClient("mongodb://localhost:27017");
+client.connect()
+.then(() => {
+// Delete from database
+client.db("MYDB").collection("students")
+.deleteOne({ name: "csel" })
+.then((res) => {
+console.log(res);
+client.close();
+});
+})
+.catch((err) => console.log(err));</code></pre>
+    <h2><code>basicmongodb.js</code>:</h2>
+    <pre><code>const { MongoClient } = require("mongodb");
+// Connection URL
+const url = "mongodb://localhost:27017";
+const client = new MongoClient(url);
+// Database and Collection names
+const dbName = "foodDeliveryDB";
+const collectionName = "restaurants";
+async function run() {
+try {
+// Connect to MongoDB
+await client.connect();
+console.log(" Connected to MongoDB sucessfully");
+const db = client.db(dbName);
+const collection = db.collection(collectionName);
+// 1. Insert sample documents
+const insertResult = await collection.insertMany([
+{ name: "Pizza Palace", location: "Downtown", rating: 4.5 },
+{ name: "Curry Corner", location: "Uptown", rating: 4.2 },
+{ name: "Burger Barn", location: "Midtown", rating: 4.0 },
+{ name: "Burger King", location: "Downtown", rating: 5.0 }
+]);
+console.log(` Inserted documents => ${insertResult.insertedCount}`);
+// 2. Find all documents
+const findResult = await collection.find({}).toArray();
+console.log("Found documents:");
+console.log(findResult);
+// 3. Update a document
+const updateResult = await collection.updateOne(
+{ name: "Burger Barn" },
+{ $set: { rating: 4.3 } }
+);
+console.log(`Updated documents => ${updateResult.modifiedCount}`);
+// 4. Delete a document
+const deleteResult = await collection.deleteOne({ name: "Burger King" });
+console.log(`Deleted documents => ${deleteResult.deletedCount}`);
+} catch (error) {
+console.error("Error:", error);
+} finally {
+await client.close();
+}
+}
+run();</code></pre>
+    <p><a href="index.html">Back to Home</a></p>
+</body>
+</html>
+

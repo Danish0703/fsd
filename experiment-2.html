@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment-2: Node.js User Login System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Experiment-2: Node.js User Login System</h1>
+    <p>This experiment creates a simple user login system using Node.js.</p>
+    <h2><code>app.js</code>:</h2>
+    <pre><code>const http = require("http");
+const fs = require("fs");
+const querystring = require("querystring");
+const PORT = 3000;
+// Dummy credentials
+const USER = { username: "admin", password: "1234" };
+// Helper function to serve HTML files
+function serveFile(res, path, statusCode = 200) {
+fs.readFile(path, (err, data) => {
+if (err) {
+res.writeHead(500);
+res.end("Error loading file");
+} else {
+res.writeHead(statusCode, { "Content-Type": "text/html" });
+res.end(data);
+}
+});
+}
+// Create server
+const server = http.createServer((req, res) => {
+if (req.method === "GET" && req.url === "/") {
+serveFile(res, "login.html");
+} else if (req.method === "POST" && req.url === "/login") {
+let body = "";
+req.on("data", chunk => body += chunk);
+req.on("end", () => {
+const { username, password } = querystring.parse(body);
+if (username === USER.username && password === USER.password) {
+serveFile(res, "welcome.html");
+} else {
+res.writeHead(401, { "Content-Type": "text/html" });
+res.end("&lt;h3&gt;Invalid login. &lt;a href=\'/\'&gt;Try again&lt;/a&gt;&lt;/h3&gt;");
+}
+});
+} else {
+res.writeHead(404, { "Content-Type": "text/plain" });
+res.end("404 Not Found");
+}
+});
+// Start server
+server.listen(PORT, () => {
+console.log("Server running at http://localhost:${PORT}");
+});</code></pre>
+    <h2><code>login.html</code>:</h2>
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Login Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h2&gt;Login&lt;/h2&gt;
+&lt;form action="/login" method="POST"&gt;
+&lt;label&gt;Username:&lt;/label&gt;
+&lt;input type="text" name="username" required&gt;&lt;br&gt;&lt;br&gt;
+&lt;label&gt;Password:&lt;/label&gt;
+&lt;input type="password" name="password" required&gt;&lt;br&gt;&lt;br&gt;
+&lt;button type="submit"&gt;Login&lt;/button&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <h2><code>welcome.html</code>:</h2>
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h2&gt;Welcome!&lt;/h2&gt;
+&lt;p&gt;You have successfully logged in.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <p><a href="index.html">Back to Home</a></p>
+</body>
+</html>
+

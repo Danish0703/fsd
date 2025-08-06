@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment-5: Food Delivery Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Experiment-5: Food Delivery Website</h1>
+    <p>This experiment involves creating a basic food delivery website for handling HTTP requests and responses with Node.js.</p>
+    <h2><code>/data/restaurants.json</code>:</h2>
+    <pre><code>[
+    {
+        "id": 1,
+        "name": "Pizza Palace",
+        "menu": ["Margherita", "Pepperoni", "Veggie Supreme"]
+    },
+    {
+        "id": 2,
+        "name": "Curry Corner",
+        "menu": ["Butter Chicken", "Paneer Tikka", "Dal Fry"]
+    }
+]</code></pre>
+    <h2><code>/views/index.html</code>:</h2>
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Food Delivery&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to Our Food Delivery Service&lt;/h1&gt;
+&lt;div id="restaurantList"&gt;&lt;/div&gt;
+&lt;script&gt;
+fetch(\'/restaurants\')
+.then(res =&gt; res.json())
+.then(data =&gt; {
+const div = document.getElementById("restaurantList");
+data.forEach(rest =&gt; {
+let html = \`&lt;h3&gt;\${rest.name}&lt;/h3&gt;&lt;form method="POST" action="/order"&gt;\`;
+rest.menu.forEach(item =&gt; {
+html += \`&lt;input type="checkbox" name="items" value="\${item}"&gt;\${item}&lt;br&gt;\`;
+});
+html += \`&lt;input type="hidden" name="restaurant" value="\${rest.name}"&gt;
+&lt;button type="submit"&gt;Order&lt;/button&gt;&lt;/form&gt;&lt;hr&gt;\`;
+div.innerHTML += html;
+});
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <h2><code>server.js</code>:</h2>
+    <pre><code>const http = require(\'http\');
+const fs = require(\'fs\');
+const url = require(\'url\');
+const querystring = require(\'querystring\');
+const path = require(\'path\');
+// Load restaurant data
+const restaurants = JSON.parse(fs.readFileSync(\'./data/restaurants.json\', \'utf8\'));
+// Create server
+http.createServer((req, res) =&gt; {
+const parsedUrl = url.parse(req.url, true);
+// Route: Home page
+if (req.url === \'/\' && req.method === \'GET\') {
+const html = fs.readFileSync(\'./views/index.html\');
+res.writeHead(200, { \'Content-Type\': \'text/html\' });
+res.end(html);
+// Route: Get restaurants (used by JS)
+} else if (req.url === \'/restaurants\' && req.method === \'GET\') {
+res.writeHead(200, { \'Content-Type\': \'application/json\' });
+res.end(JSON.stringify(restaurants));
+// Route: Handle order submission
+} else if (req.url === \'/order\' && req.method === \'POST\') {
+let body = "";
+req.on(\'data\', chunk =&gt; body += chunk);
+req.on(\'end\', () =&gt; {
+const parsed = querystring.parse(body);
+const selectedItems = Array.isArray(parsed.items) ? parsed.items : [parsed.items];
+res.writeHead(200, { \'Content-Type\': \'text/html\' });
+res.end(\`&lt;h1&gt;Order Placed!&lt;/h1&gt;&lt;p&gt;You ordered from \${parsed.restaurant}:&lt;/p&gt;&lt;ul&gt;\${
+selectedItems.map(i =&gt; \`&lt;li&gt;\${i}&lt;/li&gt;\`).join(\'\')
+}&lt;/ul&gt;&lt;a href="/"&gt;Back to Home&lt;/a&gt;\`);
+});
+// Route: Not found
+} else {
+res.writeHead(404, { \'Content-Type\': \'text/plain\' });
+res.end(\'404 Not Found\');
+}
+}).listen(3000, () =&gt; {
+console.log("Server running at http://localhost:3000/");
+});</code></pre>
+    <p><a href="index.html">Back to Home</a></p>
+</body>
+</html>
+
